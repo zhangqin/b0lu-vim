@@ -27,7 +27,6 @@ map <F5> :call CompileRun()<CR>
 map <F2> :tabnew
 map <F3> :tabprevious<CR>
 map <F4> :tabnext<CR>
-"将tab替换为空格
 nmap tt :%s/\t/    /g<CR>
 
 func! CompileRun()
@@ -47,15 +46,9 @@ func! CompileRun()
         :!time bash %
     endif
 endfunc
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"""""新文件标题
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"新建.c,.h,.sh,.java文件，自动插入文件头 
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py exec ":call SetTitle()" 
-""定义函数SetTitle，自动插入文件头 
+ 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py,*.js exec ":call SetTitle()" 
 func SetTitle() 
-    "如果文件类型为.sh文件 
     if &filetype == 'sh' 
         call setline(1,"\#!/usr/bin/env bash") 
         call append(line("."),"# coding=utf-8")                                        
@@ -68,7 +61,12 @@ func SetTitle()
         call append(line(".")+1,"# author: b0lu")                                            
         call append(line(".")+2,"# mail: b0lu@163.com")                                             
         call append(line(".")+3, "")   
-        
+    elseif &filetype == 'js'
+        call setline(1,"/*")
+        call append(line("."),"*author: b0lu")
+        call append(line(".")+1,"*mail: b0lu@163.com")
+        call append(line(".")+2,"*/")
+        call append(line(".")+3, "")    
     elseif &filetype == 'ruby'
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")                                        
@@ -102,7 +100,6 @@ func SetTitle()
         call append(line(".")+6,"public class ".expand("%:r"))
         call append(line(".")+7,"")
     endif
-    "新建文件后，自动定位到文件末尾
 endfunc 
 autocmd BufNewFile * normal G
 
