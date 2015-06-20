@@ -14,7 +14,8 @@ set showcmd
 set autoindent
 set shell=/bin/bash
 set nocompatible
-filetype off
+filetype on
+filetype plugin indent on
 
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
