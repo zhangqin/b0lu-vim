@@ -5,6 +5,7 @@ set t_Co=256
 set background=dark
 colorscheme molokai
 
+set cul "高亮光标所在行"
 set shiftwidth=4
 set tabstop=4
 set expandtab
@@ -17,6 +18,8 @@ set termencoding=utf-8
 set encoding=utf-8
 set shell=/bin/bash
 set nocompatible
+set noshowmode
+set backspace=indent,eol,start
 filetype on
 filetype plugin indent on
 
@@ -25,13 +28,52 @@ call vundle#rc()
 
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'davidhalter/jedi-vim' 
-"Bundle 'Valloric/YouCompleteMe'
+Bundle 'majutsushi/tagbar'
+Bundle 'Valloric/YouCompleteMe'
+"Bundle 'bling/vim-airline'
+Bundle "scrooloose/nerdtree"
+Bundle "vim-scripts/noerrmsg.vim"
+Bundle 'JazzCore/neocomplcache-ultisnips'
+
+"autocmd VimEnter * nested :TagbarOpen
+"autocmd VimEnter * nested :NERDTreeFind
+"autocmd VimEnter * nested :NERDTreeFocusToggle
+
+"autocmd vimenter * NERDTree 
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+let g:clang_user_options='|| exit 0'
+let g:clang_complete_auto = 0
+let g:clang_use_library = 1
+let g:clang_debug = 1
+let g:clang_library_path = '/usr/lib/'
+"let g:clang_user_options='|| exit 0'
+" YouCompleteMe plugin
+set completeopt+=preview
+let g:ycm_add_preview_to_completeopt = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+let g:neocomplete#enable_at_startup = 1
+
+"let g:airline_theme = 'badwolf'
+"let g:airline_powerline_fonts = 1
+
+
+"let g:nerdtree_tabs_smart_startup_focus = 2
+"let g:nerdtree_tabs_open_on_console_startup = 1
+"let g:nerdtree_tabs_focus_on_files = 1
+"
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
 
 map <F5> :call CompileRun()<CR>
 map <F2> :tabnew
 map <F3> :tabprevious<CR>
 map <F4> :tabnext<CR>
 nmap tt :%s/\t/    /g<CR>
+nmap <F8> :TagbarToggle<CR>
 
 func! CompileRun()
     exec "w"
