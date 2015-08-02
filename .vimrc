@@ -29,11 +29,13 @@ call vundle#rc()
 Bundle 'jiangmiao/auto-pairs'
 Bundle 'davidhalter/jedi-vim' 
 Bundle 'majutsushi/tagbar'
-Bundle 'Valloric/YouCompleteMe'
+"Bundle 'Valloric/YouCompleteMe'
 "Bundle 'bling/vim-airline'
 Bundle "scrooloose/nerdtree"
 Bundle "vim-scripts/noerrmsg.vim"
 Bundle 'JazzCore/neocomplcache-ultisnips'
+Bundle "Shougo/neocomplete.vim"
+Bundle 'fatih/vim-go'
 
 "autocmd VimEnter * nested :TagbarOpen
 "autocmd VimEnter * nested :NERDTreeFind
@@ -42,6 +44,20 @@ Bundle 'JazzCore/neocomplcache-ultisnips'
 "autocmd vimenter * NERDTree 
 autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+
+
+let g:neocomplete#enable_at_startup = 1
 
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_auto = 0
@@ -90,40 +106,42 @@ func! CompileRun()
         exec "!time java %<"
     elseif &filetype == 'sh'
         :!time bash %
+    elseif &filetype == 'go'
+        :!time go run  %
     endif
 endfunc
  
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py,*.js exec ":call SetTitle()" 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.rb,*.java,*.py,*.js,*.go exec ":call SetTitle()" 
 func SetTitle() 
     if &filetype == 'sh' 
         call setline(1,"\#!/usr/bin/env bash") 
         call append(line("."),"# coding=utf-8")                                        
         call append(line(".")+1,"# author: b0lu")                                            
-        call append(line(".")+2,"# mail: b0lu@163.com")                                             
+        call append(line(".")+2,"# mail: b0lu_xyz@163.com")                                             
         call append(line(".")+3, "") 
     elseif &filetype == 'python'
         call setline(1,"#!/usr/bin/env python")                                            
         call append(line("."),"# coding=utf-8")                                        
         call append(line(".")+1,"# author: b0lu")                                            
-        call append(line(".")+2,"# mail: b0lu@163.com")                                             
+        call append(line(".")+2,"# mail: b0lu_xyz@163.com")                                             
         call append(line(".")+3, "")   
     elseif &filetype == 'js'
         call setline(1,"/*")
         call append(line("."),"*author: b0lu")
-        call append(line(".")+1,"*mail: b0lu@163.com")
+        call append(line(".")+1,"*mail: b0lu_xyz@163.com")
         call append(line(".")+2,"*/")
         call append(line(".")+3, "")    
     elseif &filetype == 'ruby'
         call setline(1,"#!/usr/bin/env ruby")
         call append(line("."),"# encoding: utf-8")                                        
         call append(line(".")+1,"# author: b0lu")                                            
-        call append(line(".")+2,"# mail: b0lu@163.com")                                             
+        call append(line(".")+2,"# mail: b0lu_xyz@163.com")                                             
         call append(line(".")+3, "") 
     else 
         call setline(1, "/*************************************************************************") 
         call append(line("."), "    > File Name: ".expand("%")) 
         call append(line(".")+1, "    > Author: b0lu") 
-        call append(line(".")+2, "    > Mail: b0lu@163.com") 
+        call append(line(".")+2, "    > Mail: b0lu_xyz@163.com") 
         call append(line(".")+3, "    > Created Time: ".strftime("%c")) 
         call append(line(".")+4, " ************************************************************************/") 
         call append(line(".")+5, "")
